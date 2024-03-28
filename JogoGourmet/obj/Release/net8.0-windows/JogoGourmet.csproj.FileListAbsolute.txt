@@ -1,0 +1,16 @@
+D:\Project\JogoGourmet\JogoGourmet\bin\Release\net8.0-windows\JogoGourmet.exe
+D:\Project\JogoGourmet\JogoGourmet\bin\Release\net8.0-windows\JogoGourmet.deps.json
+D:\Project\JogoGourmet\JogoGourmet\bin\Release\net8.0-windows\JogoGourmet.runtimeconfig.json
+D:\Project\JogoGourmet\JogoGourmet\bin\Release\net8.0-windows\JogoGourmet.dll
+D:\Project\JogoGourmet\JogoGourmet\bin\Release\net8.0-windows\JogoGourmet.pdb
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.GuessAnDish.resources
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.csproj.GenerateResource.cache
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.AssemblyInfoInputs.cache
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.AssemblyInfo.cs
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.csproj.CoreCompileInputs.cache
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.dll
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\refint\JogoGourmet.dll
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.pdb
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\JogoGourmet.genruntimeconfig.cache
+D:\Project\JogoGourmet\JogoGourmet\obj\Release\net8.0-windows\ref\JogoGourmet.dll
