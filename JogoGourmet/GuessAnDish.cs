@@ -12,99 +12,126 @@ namespace JogoGourmet
 
             dishes = new List<Dish>()
             {
-                new Dish("Lasanha", "Massa")
+                new Dish()
+                {
+                    Name = "Lasanha",
+                    Type = "Massa",
+                    Id = 2,
+                    ParentId = 1,
+                },
+                 new Dish()
+                {
+                    Name = "Bolo de chocolate",
+                    Type = "Bolo de chocolate",
+                    Id = 1,
+                    ParentId = 0,
+                },
             };
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            var list = dishes.Select(x => x.Type).Distinct(); 
+            GuessADish(1);
+        }
 
-            foreach (var dishType in dishes.Select(x => x.Type).Distinct())
+        private bool HasAChild(int id)
+        {
+            return dishes.Where(x => x.ParentId == id).Any();
+        }
+
+        private void GuessADish(int parentId)
+        {
+            var filteredDishes = dishes.Where(x => x.ParentId == parentId);
+
+            foreach (var dish in filteredDishes)
             {
-                var result = MessageBox.Show($"O prato que voce pensou é {dishType} ?",
+                var result = MessageBox.Show($"O prato que voce pensou é {dish.Type} ?",
                     "Confirmação",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    var dishFiltered = dishes
-                        .Where(x => x.Type == dishType)
-                        .Select(x => x.Name);
-
-
-                    foreach (var dish in dishFiltered)
+                    if (HasAChild(dish.Id))
                     {
-                        var gotIt = MessageBox.Show($"O prato que voce pensou é {dish} ?",
-                            "Confirmação",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question);
-                        
-                        if(gotIt == DialogResult.Yes)
-                        {
-                            var goctha = MessageBox.Show("Acertei denovo", "Jogo Gourmet", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-
-                        if (gotIt == DialogResult.No)
-                        {
-                            continue;
-                        }
-                        
+                        GuessADish(dish.Id);
+                        break;
                     }
-                    var newDish = Interaction.InputBox("Qual prato voce pensou?", "Desisto");
 
-                    if (!string.IsNullOrEmpty(newDish))
+                    var gotIt = MessageBox.Show($"O prato que voce pensou é {dish.Name} ?",
+                           "Confirmação",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question);
+
+                    if (gotIt == DialogResult.Yes)
                     {
-                        var lasType = dishes.Select(x=>x.Type).Last();
+                        Gotcha();
+                    }
 
-                        var newType = Interaction.InputBox($"{newDish} é ______ mas não é {lasType} não.", "Confirmação");
-
-                        if (!string.IsNullOrEmpty(newDish))
-                        {
-                            dishes.Add(new Dish(newDish, newType));
-                            break;
-                        }
+                    if (gotIt == DialogResult.No)
+                    {
+                        AddDish(dish.Id);
                         return;
                     }
-                }
 
-                else if (result == DialogResult.No)
+                }
+                if (result == DialogResult.No)
                 {
-                    var last  = dishes.Select(x => x.Type).Distinct().Last();
-                    
-                    if (dishType != last)
+                    if (dish != filteredDishes.Last())
                     {
                         continue;
                     }
 
-                    var isCakeResult = MessageBox.Show($"O prato que voce pensou é bolo de chocolate? ?",
-                       "Confirmação",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
+                    var dishParent = dishes.Where(x => x.Id == dish.ParentId).FirstOrDefault();
 
-                    if (isCakeResult == DialogResult.Yes)
+                    var gotIt = MessageBox.Show($"O prato que voce pensou é {dishParent.Name} ?",
+                          "Confirmação",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Question);
+
+                    if (gotIt == DialogResult.Yes)
                     {
                         var goctha = MessageBox.Show("Acertei denovo", "Jogo Gourmet", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
-                    else if (isCakeResult == DialogResult.No)
+
+                    if (gotIt == DialogResult.No)
                     {
-                        var newDish = Interaction.InputBox("Qual prato voce pensou?", "Desisto");
-
-                        if (!string.IsNullOrEmpty(newDish))
-                        {
-                            var newType = Interaction.InputBox($"{newDish} é ______ mas não é bolo de chocolate não.", "Confirmação");
-
-                            if (!string.IsNullOrEmpty(newDish))
-                            {
-                                dishes.Add(new Dish(newDish, newType));
-                                break;
-                            }
-                            return;
-                        }
+                        AddDish(dish.ParentId);
+                        return;
                     }
+                }
+            }
+        }
+
+        private static void Gotcha()
+        {
+            MessageBox.Show("Acertei de novo!", "Jogo Gourmet", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        private void AddDish(int parentId)
+        {
+            var newDish = Interaction.InputBox("Qual prato voce pensou?", "Desisto");
+
+            if (!string.IsNullOrEmpty(newDish))
+            {
+                var lastName = dishes
+                    .Where(x=>x.Id == parentId)
+                    .Select(x => x.Name).Last();
+
+                var newType = Interaction.InputBox($"{newDish} é ______ mas {lastName} não.", "Confirmação");
+
+                if (!string.IsNullOrEmpty(newDish))
+                {
+
+                    dishes.Add(new Dish()
+                    {
+                        Name = newDish,
+                        Type = newType,
+                        Id = dishes.Count() + 1,
+                        ParentId = parentId
+                    });
                 }
             }
         }
