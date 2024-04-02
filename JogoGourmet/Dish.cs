@@ -2,12 +2,8 @@
 {
     public class Dish
     {
-        public Dish(string name, string type)
-        {
-            Name = name;
-            Type = type;
-        }
-
+        public int Id { get; set; }
+        public int ParentId { get; set; }
         public string Name { get; set; }
 
         public string Type { get; set; }
